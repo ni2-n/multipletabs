@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Multiple Tabs</title>
+    <script>
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                  results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        function openMultipleTabs() {
+            const url1 = getParameterByName('url1');
+            const url2 = getParameterByName('url2');
+            const url3 = getParameterByName('url3');
+
+            const urls = [url1, url2, url3].filter(Boolean); // Filter out any null or empty values
+
+            urls.forEach(url => {
+                window.open(url, '_blank');
+            });
+        }
+
+        window.onload = openMultipleTabs;
+    </script>
+</head>
+<body>
+    <h1>Opening Multiple Tabs...</h1>
+</body>
+</html>
