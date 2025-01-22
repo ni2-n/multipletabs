@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Multiple Tabs</title>
+    <script>
+        function getAllParametersByName(name, url = window.location.href) {
+            const params = new URLSearchParams(url.split('?')[1]);
+            const values = [];
+            for (const [key, value] of params.entries()) {
+                if (key === name) {
+                    values.push(decodeURIComponent(value));
+                }
+            }
+            return values;
+        }
+
+        function openMultipleTabs() {
+            const urls = getAllParametersByName('url');
+            urls.forEach(url => {
+                if (url) {
+                    window.open(url, '_blank');
+                }
+            });
+        }
+
+        window.onload = openMultipleTabs;
+    </script>
+</head>
+<body>
+    <h1>Opening Multiple Tabs...</h1>
+</body>
+</html>
