@@ -5,24 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Open Multiple Tabs</title>
     <script>
-        function getParameterByName(name, url = window.location.href) {
-            name = name.replace(/[\[\]]/g, '\\$&');
-            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                  results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        function getAllParametersByName(name, url = window.location.href) {
+            const params = new URLSearchParams(url.split('?')[1]);
+            const values = [];
+            for (const [key, value] of params.entries()) {
+                if (key === name) {
+                    values.push(decodeURIComponent(value));
+                }
+            }
+            return values;
         }
 
         function openMultipleTabs() {
-            const url1 = getParameterByName('url1');
-            const url2 = getParameterByName('url2');
-            const url3 = getParameterByName('url3');
-
-            const urls = [url1, url2, url3].filter(Boolean); // Filter out any null or empty values
-
+            const urls = getAllParametersByName('url');
             urls.forEach(url => {
-                window.open(url, '_blank');
+                if (url) {
+                    window.open(url, '_blank');
+                }
             });
         }
 
